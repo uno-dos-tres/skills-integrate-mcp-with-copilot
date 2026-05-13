@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <canvas id="git-background"></canvas>
     <header>
+      <img src="https://octodex.github.com/images/supportcat.png" alt="Octocat" class="mascot" />
       <h1>Mergington High School</h1>
       <h2>Extracurricular Activities</h2>
     </header>
@@ -46,5 +48,93 @@
     </footer>
 
     <script src="app.js"></script>
+    <script>
+      // Animated Git-style branch lines background
+      const canvas = document.getElementById('git-background');
+      const ctx = canvas.getContext('2d');
+      
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      const branches = [];
+      const branchCount = 5;
+      
+      // Initialize branches
+      for (let i = 0; i < branchCount; i++) {
+        branches.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          angle: Math.random() * Math.PI * 2,
+          length: 80 + Math.random() * 120,
+          age: 0,
+          maxAge: 300 + Math.random() * 200
+        });
+      }
+      
+      function drawBranch(branch) {
+        ctx.strokeStyle = 'rgba(0, 204, 0, ' + (0.5 * (1 - branch.age / branch.maxAge)) + ')';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(branch.x, branch.y);
+        const endX = branch.x + Math.cos(branch.angle) * branch.length;
+        const endY = branch.y + Math.sin(branch.angle) * branch.length;
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+        
+        // Draw sub-branches
+        for (let i = 0; i < 2; i++) {
+          const subAngle = branch.angle + (Math.random() - 0.5) * 0.8;
+          const subLength = branch.length * 0.6;
+          const midX = branch.x + Math.cos(branch.angle) * (branch.length * 0.4);
+          const midY = branch.y + Math.sin(branch.angle) * (branch.length * 0.4);
+          ctx.strokeStyle = 'rgba(0, 204, 0, ' + (0.3 * (1 - branch.age / branch.maxAge)) + ')';
+          ctx.beginPath();
+          ctx.moveTo(midX, midY);
+          ctx.lineTo(midX + Math.cos(subAngle) * subLength, midY + Math.sin(subAngle) * subLength);
+          ctx.stroke();
+        }
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        branches.forEach((branch, index) => {
+          branch.age++;
+          branch.x += branch.vx;
+          branch.y += branch.vy;
+          
+          // Wrap around screen
+          if (branch.x < 0) branch.x = canvas.width;
+          if (branch.x > canvas.width) branch.x = 0;
+          if (branch.y < 0) branch.y = canvas.height;
+          if (branch.y > canvas.height) branch.y = 0;
+          
+          drawBranch(branch);
+          
+          // Reset when expired
+          if (branch.age >= branch.maxAge) {
+            branches[index] = {
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              vx: (Math.random() - 0.5) * 0.5,
+              vy: (Math.random() - 0.5) * 0.5,
+              angle: Math.random() * Math.PI * 2,
+              length: 80 + Math.random() * 120,
+              age: 0,
+              maxAge: 300 + Math.random() * 200
+            };
+          }
+        });
+        
+        requestAnimationFrame(animate);
+      }
+      animate();
+    </script>
   </body>
 </html>

@@ -12,16 +12,37 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
+  position: relative;
+}
+
+#git-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: -1;
+  opacity: 0.1;
 }
 
 header {
   text-align: center;
   padding: 20px 0;
   margin-bottom: 30px;
-  background-color: #1a237e;
-  color: white;
+  background: linear-gradient(135deg, #00ff00 0%, #32cd32 100%);
+  color: #ffffff;
   border-radius: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+header .mascot {
+  height: 100px;
+  width: auto;
+  margin-bottom: 15px;
+  display: block;
 }
 
 header h1 {
@@ -53,8 +74,8 @@ section {
 section h3 {
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-  color: #1a237e;
+  border-bottom: 2px solid #00ff00;
+  color: #00cc00;
 }
 
 .activity-card {
@@ -67,7 +88,7 @@ section h3 {
 
 .activity-card h4 {
   margin-bottom: 10px;
-  color: #0066cc;
+  color: #00cc00;
 }
 
 .activity-card p {
@@ -83,7 +104,7 @@ section h3 {
 
 .participants-section h5 {
   margin-bottom: 8px;
-  color: #1a237e;
+  color: #00cc00;
   font-size: 16px;
 }
 
@@ -150,7 +171,7 @@ section h3 {
 }
 
 button {
-  background-color: #1a237e;
+  background-color: #00cc00;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -161,7 +182,7 @@ button {
 }
 
 button:hover {
-  background-color: #3949ab;
+  background-color: #00ff00;
 }
 
 .message {
